@@ -1,0 +1,168 @@
+{
+  "startRoom": "FlightDeck",
+  "endRoom": "FlightDeck",
+  "rooms": [
+    {
+      "roomName": "FlightDeck",
+      "description": "Flight Deck: I feel the need... the need for speed! Fly the spaceship. And try not to hit any asteroids.",
+      "items": [
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "down",
+          "room": "Operations"
+        }
+      ]
+    },
+    {
+      "roomName": "Operations",
+      "description": "Operations: jammed weapons? Hull leak? Broken coffee machine? Oversee all the ship's functions and status here.",
+      "items": [
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "left",
+          "room": "Quarters"
+        },
+        {
+          "directionName": "up",
+          "room": "FlightDeck"
+        },
+        {
+          "directionName": "right",
+          "room": "Barracks"
+        },
+        {
+          "directionName": "down",
+          "room": "GunCommand"
+        }
+      ]
+    },
+    {
+      "roomName": "Quarters",
+      "description": "Quarters: relaxing area for crew members. Time to chill.",
+      "items": [
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "right",
+          "room": "Operations"
+        },
+        {
+          "directionName": "down",
+          "room": "Storage"
+        }
+      ]
+    },
+    {
+      "roomName": "Storage",
+      "description": "Storage: extra space for miscellaneous items.",
+      "items": [
+        "watering can"
+      ],
+      "directions": [
+        {
+          "directionName": "up",
+          "room": "Quarters"
+        }
+      ]
+    },
+    {
+      "roomName": "Barracks",
+      "description": "Barracks: zzz... Sleeping space for crew members.",
+      "items": [
+        "super important USB stick"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "left",
+          "room": "Operations"
+        },
+        {
+          "directionName": "down",
+          "room": "AmmoRoom"
+        }
+      ]
+    },
+    {
+      "roomName": "GunCommand",
+      "description": "Gun control room: pew pew! Take control of ship's point defense cannons and railgun.",
+      "items": [
+        "gun control manual"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "up",
+          "room": "Operations"
+        },
+        {
+          "directionName": "down",
+          "room": "galley"
+        }
+      ]
+    },
+    {
+      "roomName": "MedBay",
+      "description": "Medical bay: for when things get a lil rough out in space.",
+      "items": [
+        "first aid kit"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "up",
+          "room": "Galley"
+        },
+        {
+          "directionName": "down",
+          "room": "CargoBay"
+        }
+      ]
+    },
+    {
+      "roomName": "CargoBay",
+      "description": "Cargo storage: where all the good stuff is kept.",
+      "items": [
+        "top-secret alien loot",
+        "protomolecule sample"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "up",
+          "room": "medBay"
+        },
+        {
+          "directionName": "right",
+          "room": "Engineering"
+        }
+      ]
+    },
+    {
+      "roomName": "Engineering",
+      "description": "Engineering: for da nerds. Show em that CS degree wasn't for nothing.",
+      "items": [
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "left",
+          "room": "CargoBay"
+        },
+        {
+          "directionName": "right",
+          "room": "Hydroponics"
+        }
+      ]
+    },
+    {
+      "roomName": "Hydroponics",
+      "description": "Hydroponics: grow all the space plants you want here. Yum.",
+      "items": [
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "left",
+          "room": "Engineering"
+        }
+      ]
+    }
+  ]
+}
