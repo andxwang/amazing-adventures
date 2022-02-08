@@ -6,16 +6,17 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 
 public class AdventureTest {
+
     @Before
-    public void setUp() {
+    public void setUp() throws FileNotFoundException {
         // This is run before every test.
+        SpaceshipGame game = new SpaceshipGame("src/main/resources/spaceship.json");
     }
 
-    @Test
-    public void sanityCheck() {
-        // TODO: Remove this unnecessary test case.
-        assertThat("CS 126: Software Design Studio", CoreMatchers.containsString("Software"));
-    }
+
 }

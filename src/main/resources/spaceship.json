@@ -1,11 +1,12 @@
 {
   "startRoom": "FlightDeck",
-  "endRoom": "FlightDeck",
+  "endRoom": "DockingRoom",
   "rooms": [
     {
       "roomName": "FlightDeck",
-      "description": "Flight Deck: I feel the need... the need for speed! Fly the spaceship. And try not to hit any asteroids.",
+      "description": "Flight Deck: I feel the need... the need for speed! Fly the ship. And try not to hit any asteroids.",
       "items": [
+        "master key"
       ],
       "leaveDirections": [
         {
@@ -18,6 +19,8 @@
       "roomName": "Operations",
       "description": "Operations: jammed weapons? Hull leak? Broken coffee machine? Oversee all the ship's functions and status here.",
       "items": [
+        "Martian pen",
+        "holograph handheld"
       ],
       "leaveDirections": [
         {
@@ -42,6 +45,7 @@
       "roomName": "Quarters",
       "description": "Quarters: relaxing area for crew members. Time to chill.",
       "items": [
+        "fluffy pillow"
       ],
       "leaveDirections": [
         {
@@ -58,9 +62,8 @@
       "roomName": "Storage",
       "description": "Storage: extra space for miscellaneous items.",
       "items": [
-        "watering can"
       ],
-      "directions": [
+      "leaveDirections": [
         {
           "directionName": "up",
           "room": "Quarters"
@@ -71,16 +74,12 @@
       "roomName": "Barracks",
       "description": "Barracks: zzz... Sleeping space for crew members.",
       "items": [
-        "super important USB stick"
+        "New Space Times magazine"
       ],
       "leaveDirections": [
         {
           "directionName": "left",
           "room": "Operations"
-        },
-        {
-          "directionName": "down",
-          "room": "AmmoRoom"
         }
       ]
     },
@@ -88,7 +87,7 @@
       "roomName": "GunCommand",
       "description": "Gun control room: pew pew! Take control of ship's point defense cannons and railgun.",
       "items": [
-        "gun control manual"
+        "weapon control manual"
       ],
       "leaveDirections": [
         {
@@ -97,7 +96,45 @@
         },
         {
           "directionName": "down",
-          "room": "galley"
+          "room": "Dining"
+        }
+      ]
+    },
+    {
+      "roomName": "Dining",
+      "description": "Dining: Chow down on delicious space food that is totally fresh.",
+      "items": [
+        "silverware"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "up",
+          "room": "GunCommand"
+        },
+        {
+          "directionName": "left",
+          "room": "Galley"
+        },
+        {
+          "directionName": "down",
+          "room": "Hydroponics"
+        },
+        {
+          "directionName": "right",
+          "room": "MedBay"
+        }
+      ]
+    },
+    {
+      "roomName": "Galley",
+      "description": "Galley: Where the good stuff is cooked up.",
+      "items": [
+        "granola bar"
+      ],
+      "leaveDirections": [
+        {
+          "directionName": "right",
+          "room": "Dining"
         }
       ]
     },
@@ -109,8 +146,25 @@
       ],
       "leaveDirections": [
         {
+          "directionName": "left",
+          "room": "Dining"
+        },
+        {
+          "directionName": "down",
+          "room": "Engineering"
+        }
+      ]
+    },
+    {
+      "roomName": "Hydroponics",
+      "description": "Hydroponics: grow all the space plants you want here. Yum.",
+      "items": [
+        "watering can"
+      ],
+      "leaveDirections": [
+        {
           "directionName": "up",
-          "room": "Galley"
+          "room": "Dining"
         },
         {
           "directionName": "down",
@@ -120,7 +174,7 @@
     },
     {
       "roomName": "CargoBay",
-      "description": "Cargo storage: where all the good stuff is kept.",
+      "description": "Cargo storage: where all the loot is kept.",
       "items": [
         "top-secret alien loot",
         "protomolecule sample"
@@ -128,11 +182,11 @@
       "leaveDirections": [
         {
           "directionName": "up",
-          "room": "medBay"
+          "room": "Hydroponics"
         },
         {
-          "directionName": "right",
-          "room": "Engineering"
+          "directionName": "left",
+          "room": "DockingRoom"
         }
       ]
     },
@@ -143,24 +197,20 @@
       ],
       "leaveDirections": [
         {
-          "directionName": "left",
-          "room": "CargoBay"
-        },
-        {
-          "directionName": "right",
-          "room": "Hydroponics"
+          "directionName": "up",
+          "room": "MedBay"
         }
       ]
     },
     {
-      "roomName": "Hydroponics",
-      "description": "Hydroponics: grow all the space plants you want here. Yum.",
+      "roomName": "DockingRoom",
+      "description": "Docking room: enter and exit the spacecraft via connecting bridge.",
       "items": [
       ],
       "leaveDirections": [
         {
-          "directionName": "left",
-          "room": "Engineering"
+          "directionName": "right",
+          "room": "CargoBay"
         }
       ]
     }
