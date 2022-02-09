@@ -24,6 +24,9 @@ public class SpaceshipGame {
         input = new Scanner(System.in);
     }
 
+    /**
+     * Main driver method for game.
+     */
     public void play() {
         printIntro();
         System.out.println();
@@ -31,59 +34,59 @@ public class SpaceshipGame {
 
         System.out.print("> ");
         String inText = input.nextLine();
+        inText = inText.trim();
+        Command cmd = new Command(inText);
+        CommandType action = cmd.action();
 
-        while (!inText.trim().equalsIgnoreCase("quit")) {
-            inText = inText.trim();
+        while (action != CommandType.QUIT) {
 
-            // help
-            if (inText.trim().equalsIgnoreCase("help")) {
-                printHelp();
-            }
-
-            // examine
-            else if (inText.trim().equalsIgnoreCase("examine")) {
-                examine();
-            }
-
-            // go [direction]
-            else if (inText.length() >= 2 && inText.substring(0, 2).equalsIgnoreCase("go")) {
-                String direction = inText.substring(3).trim();
-                go(direction);
-            }
-
-            // take [item]
-            else if (inText.length() >= 4 && inText.substring(0, 4).equalsIgnoreCase("take")) {
-                String itemWanted = inText.substring(5).trim();
-                take(itemWanted);
-            }
-
-            // drop [item]
-            else if (inText.length() >= 4 && inText.substring(0, 4).equalsIgnoreCase("drop")) {
-                String itemToDrop = inText.substring(5).trim();
-                drop(itemToDrop);
-            }
-
-            // inventory
-            else if (inText.equalsIgnoreCase("inventory")) {
-                System.out.println("Your inventory: " + inventory);
-            }
-
-            else {
-                System.out.println("Invalid command. Try again.");
+            switch (action) {
+                case HELP:
+                    printHelp();
+                    break;
+                case EXAMINE:
+                    examine();
+                    break;
+                case GO:
+                    String direction = inText.substring(3).trim();
+                    go(direction);
+                    break;
+                case TAKE:
+                    String itemWanted = inText.substring(5).trim();
+                    take(itemWanted);
+                    break;
+                case DROP:
+                    String itemToDrop = inText.substring(5).trim();
+                    drop(itemToDrop);
+                    break;
+                case INVENTORY:
+                    printInventory();
+                    break;
+                case INVALID:
+                    System.out.println("Invalid command. Try again.");
+                    break;
+                default:
+                    break;
             }
 
             if (currentRoom.equalsIgnoreCase(blueprint.getEndRoom())) {
                 System.out.println("================================================================\n" +
-                                   "You've reached the docking room! Have a safe trip back to Earth!\n" +
-                                   "================================================================");
+                                    "You've reached the docking room! Have a safe trip back to Earth!\n" +
+                                    "================================================================");
                 break;
             }
 
             System.out.print("> ");
             inText = input.nextLine();
+            cmd.setCommand(inText);
+            action = cmd.action();
         }
+
     }
 
+    /**
+     * Print introduction paragraph for game.
+     */
     public void printIntro() {
         System.out.println("You are aboard the Rocinante, a speedy, slick space frigate!");
         System.out.println("You've finished your duties scouting the dark depths of our solar system " +
@@ -92,6 +95,9 @@ public class SpaceshipGame {
         System.out.println("You need to make your way to the Docking Room!\n");
     }
 
+    /**
+     * Print help message for game. Can be repeatedly called via user input.
+     */
     public void printHelp() {
         System.out.println("To see where you currently are, type examine.");
         System.out.println("To go to another room, type go [direction].");
@@ -99,9 +105,15 @@ public class SpaceshipGame {
         System.out.println("To drop an item, type drop [item].");
         System.out.println("To see your inventory, type inventory.");
         System.out.println("To exit the game, type quit.");
-        System.out.println("To see this message again, type help.");
+        System.out.println("To see this message again, type help.\n");
     }
 
+    /**
+     * Move to room in direction.
+     * If the direction is invalid or there is no room in that direction,
+     * print error message and re prompt user.
+     * @param direction a String representing a direction
+     */
     public void go(String direction) {
         // TODO: add isValidDirection() somewhere
         if (!(direction.equalsIgnoreCase("Left") ||
@@ -122,6 +134,9 @@ public class SpaceshipGame {
         System.out.println("Invalid direction. Try again.");
     }
 
+    /**
+     * Get current room name, description, and items.
+     */
     public void examine() {
         System.out.println("You are currently in " + currentRoom + ".");
         Room current = blueprint.getRoom(currentRoom);
@@ -135,6 +150,11 @@ public class SpaceshipGame {
         current.printWhereFrom();
     }
 
+    /**
+     * Move an item into the user's inventory and remove it from the current room.
+     * If there is no such item in the room, print an error message and do nothing.
+     * @param itemWanted a String representing the desired item to take
+     */
     public void take(String itemWanted) {
         Room current = blueprint.getRoom(currentRoom);
         if (!current.hasItem(itemWanted)) {
@@ -145,6 +165,11 @@ public class SpaceshipGame {
         inventory.add(itemWanted);
     }
 
+    /**
+     * Remove an item from the user's inventory and place it in the current room.
+     * If there is no such item in the inventory, print an error message and do nothing.
+     * @param itemToDrop a String representing the desired item to drop
+     */
     public void drop(String itemToDrop) {
         Room current = blueprint.getRoom(currentRoom);
         if (!inventory.contains(itemToDrop)) {
@@ -153,5 +178,12 @@ public class SpaceshipGame {
         }
         current.placeItem(itemToDrop);
         inventory.remove(itemToDrop);
+    }
+
+    /**
+     * Print inventory.
+     */
+    public void printInventory() {
+        System.out.println("Your inventory: " + inventory);
     }
 }
