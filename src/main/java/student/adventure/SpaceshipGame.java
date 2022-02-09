@@ -88,24 +88,23 @@ public class SpaceshipGame {
      * Print introduction paragraph for game.
      */
     public void printIntro() {
-        System.out.println("You are aboard the Rocinante, a speedy, slick space frigate!");
-        System.out.println("You've finished your duties scouting the dark depths of our solar system " +
-                "for precious materials.");
-        System.out.println("Now it is time for you to head back to Earth via transport pod.");
-        System.out.println("You need to make your way to the Docking Room!\n");
+        System.out.println("You are aboard the Rocinante, a speedy, slick space frigate!\n" +
+                "You've finished your duties scouting the dark depths of our solar system for precious materials.\n" +
+                "Now it is time for you to head back to Earth via transport pod.\n" +
+                "You need to make your way to the Docking Room!\n");
     }
 
     /**
      * Print help message for game. Can be repeatedly called via user input.
      */
     public void printHelp() {
-        System.out.println("To see where you currently are, type examine.");
-        System.out.println("To go to another room, type go [direction].");
-        System.out.println("To pick up an item, type take [item]. The room may not have an item.");
-        System.out.println("To drop an item, type drop [item].");
-        System.out.println("To see your inventory, type inventory.");
-        System.out.println("To exit the game, type quit.");
-        System.out.println("To see this message again, type help.\n");
+        System.out.println("To see where you currently are, type examine.\n" +
+                "To go to another room, type go [direction].\n" +
+                "To pick up an item, type take [item]. The room may not have an item.\n" +
+                "To drop an item, type drop [item].\n" +
+                "To see your inventory, type inventory.\n" +
+                "To exit the game, type quit.\n" +
+                "To see this message again, type help.");
     }
 
     /**
@@ -184,5 +183,46 @@ public class SpaceshipGame {
      */
     public void printInventory() {
         System.out.println("Your inventory: " + inventory);
+    }
+
+    /**
+     * For testing purposes.
+     * <b>Not to be used by player.</b>
+     * Same code as in play() verbatim, except without while loop.
+     */
+    public void testCommand(String input) {
+        input = input.trim();
+        Command cmd = new Command(input);
+        CommandType action = cmd.action();
+
+        switch (action) {
+            case HELP:
+                printHelp();
+                break;
+            case EXAMINE:
+                examine();
+                break;
+            case GO:
+                String direction = input.substring(3).trim();
+                go(direction);
+                break;
+            case TAKE:
+                String itemWanted = input.substring(5).trim();
+                take(itemWanted);
+                break;
+            case DROP:
+                String itemToDrop = input.substring(5).trim();
+                drop(itemToDrop);
+                break;
+            case INVENTORY:
+                printInventory();
+                break;
+            case INVALID:
+                System.out.println("Invalid command. Try again.");
+                break;
+            default:
+                break;
+        }
+
     }
 }

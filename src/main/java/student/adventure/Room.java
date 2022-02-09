@@ -1,7 +1,6 @@
 package student.adventure;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Room {
 
@@ -35,6 +34,9 @@ public class Room {
         return leaveDirections;
     }
 
+    /**
+     * Prints out which rooms you can go do and in which direction.
+     */
     public void printWhereFrom() {
         System.out.println("You can go: ");
         for (LeaveDirection dir : leaveDirections) {
@@ -42,14 +44,27 @@ public class Room {
         }
     }
 
+    /**
+     * Check if this room has a given item.
+     * @param itemName a String representing the item
+     * @return true if the item is in this room, false otherwise
+     */
     public boolean hasItem(String itemName) {
         return items.contains(itemName);
     }
 
+    /**
+     * Takes an item and removes from this room's items ArrayList.
+     * @param itemName a String representing the item
+     */
     public void takeItem(String itemName) {
         items.remove(itemName);
     }
 
+    /**
+     * Place an item into this room and add it to this room's items ArrayList
+     * @param itemName a String representing the item
+     */
     public void placeItem(String itemName) {
         items.add(itemName);
     }

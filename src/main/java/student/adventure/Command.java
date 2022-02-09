@@ -1,5 +1,9 @@
 package student.adventure;
 
+/**
+ * Utility class to handle commands in SpaceshipGame.play().
+ * Takes in text input and processes into CommandType enum type.
+ */
 public class Command {
 
     String text;

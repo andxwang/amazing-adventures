@@ -1,7 +1,5 @@
 package student.adventure;
 
-import java.util.ArrayList;
-
 public class SpaceshipBlueprint {
 
     private String startRoom;
@@ -20,14 +18,11 @@ public class SpaceshipBlueprint {
         return rooms;
     }
 
-    public ArrayList<String> getRoomNames() {
-        ArrayList<String> roomNames = new ArrayList<>();
-        for (Room room : rooms) {
-            roomNames.add(room.getRoomName());
-        }
-        return roomNames;
-    }
-
+    /**
+     * Helper method to get Room object corresponding to given room name.
+     * @param roomName a String represent the desired room name
+     * @return a Room object
+     */
     public Room getRoom(String roomName) {
         for (Room room : rooms) {
             if (roomName.equalsIgnoreCase(room.getRoomName()))
