@@ -115,7 +115,6 @@ public class SpaceshipGame {
      * @param direction a String representing a direction
      */
     public void go(String direction) {
-        // TODO: add isValidDirection() somewhere
         if (!(direction.equalsIgnoreCase("Left") ||
                 direction.equalsIgnoreCase("Up") ||
                 direction.equalsIgnoreCase("Right") ||
