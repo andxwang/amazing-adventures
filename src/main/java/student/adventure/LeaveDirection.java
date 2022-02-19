@@ -1,5 +1,8 @@
 package student.adventure;
 
+/**
+ * Class to represent the directions one can take to leave the current room
+ */
 public class LeaveDirection {
 
     private String directionName;

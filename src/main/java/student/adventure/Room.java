@@ -2,6 +2,9 @@ package student.adventure;
 
 import java.util.ArrayList;
 
+/**
+ * Class to represent a room in the map
+ */
 public class Room {
 
     private String roomName;
@@ -25,6 +28,9 @@ public class Room {
         return items;
     }
 
+    /**
+     * Prints items in this room.
+     */
     public void printItems() {
         System.out.print("Items in this room: ");
         System.out.println(items);

@@ -8,12 +8,32 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Game class to handle game input and functions
+ */
 public class SpaceshipGame {
 
     public SpaceshipBlueprint blueprint;
     private String currentRoom;
     private ArrayList<String> inventory;
-    Scanner input;
+    private ArrayList<String> roomHistory;
+    private Scanner input;
+    private final String introMessage = "You are aboard the Rocinante, a speedy, slick space frigate!\n" +
+                                        "You've finished your duties scouting the dark depths of our solar system for precious materials.\n" +
+                                        "Now it is time for you to head back to Earth via transport pod.\n" +
+                                        "You need to make your way to the Docking Room!\n";
+    private final String helpMessage = "To see where you currently are, type examine.\n" +
+                                        "To go to another room, type go [direction].\n" +
+                                        "To pick up an item, type take [item]. The room may not have an item.\n" +
+                                        "To drop an item, type drop [item].\n" +
+                                        "To see your inventory, type inventory.\n" +
+                                        "To see the history of rooms you've visited, type history.\n" +
+                                        "To exit the game, type quit.\n" +
+                                        "To see this message again, type help.";
+    private final String doneMessage = "================================================================\n" +
+                                        "You've reached the docking room! Have a safe trip back to Earth!\n" +
+                                        "================================================================";
+    private final String[] directions = {"up", "left", "down", "right"};
 
     public SpaceshipGame(String fileName) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
@@ -21,6 +41,8 @@ public class SpaceshipGame {
         blueprint = gson.fromJson(reader, SpaceshipBlueprint.class);
         currentRoom = blueprint.getStartRoom();
         inventory = new ArrayList<>();
+        roomHistory = new ArrayList<>();
+        roomHistory.add(currentRoom);
         input = new Scanner(System.in);
     }
 
@@ -62,6 +84,9 @@ public class SpaceshipGame {
                 case INVENTORY:
                     printInventory();
                     break;
+                case HISTORY:
+                    System.out.println(roomHistory);
+                    break;
                 case INVALID:
                     System.out.println("Invalid command. Try again.");
                     break;
@@ -69,11 +94,9 @@ public class SpaceshipGame {
                     break;
             }
 
-            if (currentRoom.equalsIgnoreCase(blueprint.getEndRoom())) {
-                System.out.println("================================================================\n" +
-                                    "You've reached the docking room! Have a safe trip back to Earth!\n" +
-                                    "================================================================");
-                break;
+            if (reachedEndRoom()) {
+                System.out.println(doneMessage);
+                return;
             }
 
             System.out.print("> ");
@@ -88,23 +111,14 @@ public class SpaceshipGame {
      * Print introduction paragraph for game.
      */
     public void printIntro() {
-        System.out.println("You are aboard the Rocinante, a speedy, slick space frigate!\n" +
-                "You've finished your duties scouting the dark depths of our solar system for precious materials.\n" +
-                "Now it is time for you to head back to Earth via transport pod.\n" +
-                "You need to make your way to the Docking Room!\n");
+        System.out.println(introMessage);
     }
 
     /**
      * Print help message for game. Can be repeatedly called via user input.
      */
     public void printHelp() {
-        System.out.println("To see where you currently are, type examine.\n" +
-                "To go to another room, type go [direction].\n" +
-                "To pick up an item, type take [item]. The room may not have an item.\n" +
-                "To drop an item, type drop [item].\n" +
-                "To see your inventory, type inventory.\n" +
-                "To exit the game, type quit.\n" +
-                "To see this message again, type help.");
+        System.out.println(helpMessage);
     }
 
     /**
@@ -114,10 +128,14 @@ public class SpaceshipGame {
      * @param direction a String representing a direction
      */
     public void go(String direction) {
-        if (!(direction.equalsIgnoreCase("Left") ||
-                direction.equalsIgnoreCase("Up") ||
-                direction.equalsIgnoreCase("Right") ||
-                direction.equalsIgnoreCase("Down"))) {
+        boolean isValidDirection = false;
+        for (String dir : directions) {
+            if (dir.equalsIgnoreCase(direction)) {
+                isValidDirection = true;
+                break;
+            }
+        }
+        if (!isValidDirection) {
             System.out.println("Invalid direction. Try again.");
             return;
         }
@@ -126,6 +144,7 @@ public class SpaceshipGame {
             if (exitDir.getDirectionName().equalsIgnoreCase(direction)) {
                 this.currentRoom = exitDir.getRoomName();
                 examine();
+                roomHistory.add(currentRoom);
                 return;
             }
         }
@@ -185,6 +204,10 @@ public class SpaceshipGame {
         System.out.println("Your inventory: " + inventory);
     }
 
+    public boolean reachedEndRoom() {
+        return currentRoom.equalsIgnoreCase(blueprint.getEndRoom());
+    }
+
     /**
      * For testing purposes.
      * <b>Not to be used by player.</b>
@@ -216,6 +239,9 @@ public class SpaceshipGame {
                 break;
             case INVENTORY:
                 printInventory();
+                break;
+            case HISTORY:
+                System.out.println(roomHistory);
                 break;
             case INVALID:
                 System.out.println("Invalid command. Try again.");

@@ -11,5 +11,6 @@ public enum CommandType {
     TAKE,
     DROP,
     INVENTORY,
+    HISTORY,
     INVALID
 }

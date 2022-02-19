@@ -19,6 +19,11 @@ public class Command {
      * @return A CommandType enum action.
      */
     public CommandType action() {
+        /* I am not storing these strings as private final variables as suggested in feedback
+           because it would be redundant and less readable. E.g. no point in checking if
+           text.equals(quit) where quit is just a String for "quit".
+         */
+
         if (text.equalsIgnoreCase("quit"))
             return CommandType.QUIT;
 
@@ -28,17 +33,22 @@ public class Command {
         if (text.equalsIgnoreCase("examine"))
             return CommandType.EXAMINE;
 
-        if (text.length() >= 2 && text.substring(0, 2).equalsIgnoreCase("go"))
-            return CommandType.GO;
-
-        if (text.length() >= 4 && text.substring(0, 4).equalsIgnoreCase("take"))
-            return CommandType.TAKE;
-
-        if (text.length() >= 4 && text.substring(0, 4).equalsIgnoreCase("drop"))
-            return CommandType.DROP;
-
         if (text.equalsIgnoreCase("inventory"))
             return CommandType.INVENTORY;
+
+        if (text.equalsIgnoreCase("history"))
+            return CommandType.HISTORY;
+
+        String[] split = text.split(" ");
+
+        if (split[0].equalsIgnoreCase("go"))
+            return CommandType.GO;
+
+        if (split[0].equalsIgnoreCase("take"))
+            return CommandType.TAKE;
+
+        if (split[0].equalsIgnoreCase("drop"))
+            return CommandType.DROP;
 
         return CommandType.INVALID;
     }

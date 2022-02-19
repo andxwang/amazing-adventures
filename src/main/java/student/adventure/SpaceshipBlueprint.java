@@ -1,5 +1,8 @@
 package student.adventure;
 
+/**
+ * Class to deserialize spaceship json file
+ */
 public class SpaceshipBlueprint {
 
     private String startRoom;
