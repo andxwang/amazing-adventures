@@ -1,12 +1,13 @@
 package student.adventure;
 
 import com.google.gson.Gson;
+import student.server.AdventureState;
+import student.server.GameStatus;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Game class to handle game input and functions
@@ -18,6 +19,7 @@ public class SpaceshipGame {
     private ArrayList<String> inventory;
     private ArrayList<String> roomHistory;
     private Scanner input;
+    private AdventureState adventureState;
     private final String introMessage = "You are aboard the Rocinante, a speedy, slick space frigate!\n" +
                                         "You've finished your duties scouting the dark depths of our solar system for precious materials.\n" +
                                         "Now it is time for you to head back to Earth via transport pod.\n" +
@@ -36,23 +38,29 @@ public class SpaceshipGame {
     private final String[] directions = {"up", "left", "down", "right"};
 
     public SpaceshipGame(String fileName) throws FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        Gson gson = new Gson();
-        blueprint = gson.fromJson(reader, SpaceshipBlueprint.class);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            Gson gson = new Gson();
+            blueprint = gson.fromJson(reader, SpaceshipBlueprint.class);
+        }
+        catch (FileNotFoundException e) {
+            throw new FileNotFoundException("Invalid file!");
+        }
         currentRoom = blueprint.getStartRoom();
         inventory = new ArrayList<>();
         roomHistory = new ArrayList<>();
         roomHistory.add(currentRoom);
         input = new Scanner(System.in);
+        adventureState = new AdventureState(currentRoom);
     }
 
     /**
      * Main driver method for game.
      */
     public void play() {
-        printIntro();
+        System.out.println(getIntroMessage());
         System.out.println();
-        printHelp();
+        System.out.println(getHelpMessage());
 
         System.out.print("> ");
         String inText = input.nextLine();
@@ -64,28 +72,28 @@ public class SpaceshipGame {
 
             switch (action) {
                 case HELP:
-                    printHelp();
+                    System.out.println(getHelpMessage());
                     break;
                 case EXAMINE:
-                    examine();
+                    System.out.println(examine());
                     break;
                 case GO:
                     String direction = inText.substring(3).trim();
-                    go(direction);
+                    System.out.println(go(direction));
                     break;
                 case TAKE:
                     String itemWanted = inText.substring(5).trim();
-                    take(itemWanted);
+                    System.out.println(take(itemWanted));
                     break;
                 case DROP:
                     String itemToDrop = inText.substring(5).trim();
-                    drop(itemToDrop);
+                    System.out.println(drop(itemToDrop));
                     break;
                 case INVENTORY:
-                    printInventory();
+                    System.out.println(getInventoryAsString());
                     break;
                 case HISTORY:
-                    System.out.println(roomHistory);
+                    System.out.println(getHistoryAsString());
                     break;
                 case INVALID:
                     System.out.println("Invalid command. Try again.");
@@ -108,17 +116,23 @@ public class SpaceshipGame {
     }
 
     /**
-     * Print introduction paragraph for game.
+     * Get the game introduction message.
+     * @return a String for the intro
      */
-    public void printIntro() {
-        System.out.println(introMessage);
+    public String getIntroMessage() {
+        return introMessage;
     }
 
     /**
-     * Print help message for game. Can be repeatedly called via user input.
+     * Get the game help message.
+     * @return a String for the help message
      */
-    public void printHelp() {
-        System.out.println(helpMessage);
+    public String getHelpMessage() {
+        return helpMessage;
+    }
+
+    public AdventureState getAdventureState() {
+        return adventureState;
     }
 
     /**
@@ -127,7 +141,7 @@ public class SpaceshipGame {
      * print error message and re prompt user.
      * @param direction a String representing a direction
      */
-    public void go(String direction) {
+    public String go(String direction) {
         boolean isValidDirection = false;
         for (String dir : directions) {
             if (dir.equalsIgnoreCase(direction)) {
@@ -136,35 +150,36 @@ public class SpaceshipGame {
             }
         }
         if (!isValidDirection) {
-            System.out.println("Invalid direction. Try again.");
-            return;
+            return "Invalid direction. Try again.";
         }
 
+        String message = "";
         for (LeaveDirection exitDir : blueprint.getRoom(currentRoom).getLeaveDirections()) {
             if (exitDir.getDirectionName().equalsIgnoreCase(direction)) {
                 this.currentRoom = exitDir.getRoomName();
-                examine();
+                message += examine();
                 roomHistory.add(currentRoom);
-                return;
+                return message;
             }
         }
-        System.out.println("Invalid direction. Try again.");
+        return "Invalid direction. Try again.";
     }
 
     /**
      * Get current room name, description, and items.
      */
-    public void examine() {
-        System.out.println("You are currently in " + currentRoom + ".");
+    public String examine() {
+        String message = "";
+        message += "You are currently in " + currentRoom + ".\n";
         Room current = blueprint.getRoom(currentRoom);
         if (current == null) {
             // Game should never reach this state, but implemented for failsafe purposes
-            System.out.println("Invalid room!");
-            return;
+            return "Invalid room!\n";
         }
-        current.printDescription();
-        current.printItems();
-        current.printWhereFrom();
+        message += current.getDescription() + "\n";
+        message += "Items in this room: " + current.getItemsAsString() + "\n";
+        message += current.getDirectionsToRooms();
+        return message;
     }
 
     /**
@@ -172,14 +187,14 @@ public class SpaceshipGame {
      * If there is no such item in the room, print an error message and do nothing.
      * @param itemWanted a String representing the desired item to take
      */
-    public void take(String itemWanted) {
+    public String take(String itemWanted) {
         Room current = blueprint.getRoom(currentRoom);
         if (!current.hasItem(itemWanted)) {
-            System.out.println("There's no " + itemWanted + " in this room!");
-            return;
+            return "There's no " + itemWanted + " in this room!";
         }
         current.takeItem(itemWanted);
         inventory.add(itemWanted);
+        return "";
     }
 
     /**
@@ -187,14 +202,14 @@ public class SpaceshipGame {
      * If there is no such item in the inventory, print an error message and do nothing.
      * @param itemToDrop a String representing the desired item to drop
      */
-    public void drop(String itemToDrop) {
+    public String drop(String itemToDrop) {
         Room current = blueprint.getRoom(currentRoom);
         if (!inventory.contains(itemToDrop)) {
-            System.out.println("There's no " + itemToDrop + " in your inventory!");
-            return;
+            return "There's no " + itemToDrop + " in your inventory!";
         }
         current.placeItem(itemToDrop);
         inventory.remove(itemToDrop);
+        return "";
     }
 
     /**
@@ -204,8 +219,122 @@ public class SpaceshipGame {
         System.out.println("Your inventory: " + inventory);
     }
 
+    /**
+     * Gets the player's current inventory.
+     * @return a String showing the inventory
+     */
+    public String getInventoryAsString() {
+        return "Your inventory: " + inventory.toString();
+    }
+
+    /**
+     * Print history of rooms player has travelled to.
+     */
+    public void printHistory() {
+        System.out.println(roomHistory);
+    }
+
+    /**
+     * Get the history of rooms the player has travelled to.
+     * @return a String showing the list of rooms
+     */
+    public String getHistoryAsString() {
+        return "Travel history: " + roomHistory.toString();
+    }
+
+    /**
+     * Check if the player has reached the goal room.
+     * @return true if the player has reached the goal room, false otherwise
+     */
     public boolean reachedEndRoom() {
         return currentRoom.equalsIgnoreCase(blueprint.getEndRoom());
+    }
+
+    /**
+     * Get the current room's image URL
+     * @return the URL
+     */
+    public String getImageURL() {
+        return blueprint.getRoom(currentRoom).getImageURL();
+    }
+
+    /**
+     * Get the current room's video/sound URL
+     * @return the URL
+     */
+    public String getVideoURL() {
+        return blueprint.getRoom(currentRoom).getVideoURL();
+    }
+
+    /**
+     * Process passed in command and value (verb + noun).
+     * @param command a String representing the action to take, e.g. "go"
+     * @param value a String representing the value of the action, e.g. "left"
+     * @return the taken action as a String
+     */
+    public String processCommand(String command, String value) {
+        // reusing code from play() and own Command class + enum
+        Command cmd = new Command(command.trim());
+        CommandType action = cmd.action();
+
+        switch (action) {
+            case HELP:
+                return getHelpMessage();
+            case EXAMINE:
+                return examine();
+            case GO:
+                String direction = value.trim();
+                return go(direction);
+            case TAKE:
+                String itemWanted = value.trim();
+                return take(itemWanted);
+            case DROP:
+                String itemToDrop = value.trim();
+                return drop(itemToDrop);
+            case INVENTORY:
+                return getInventoryAsString();
+            case HISTORY:
+                return getHistoryAsString();
+            case INVALID:
+            default:
+                break;
+        }
+        return "Invalid command. Try again.";
+    }
+
+    /**
+     * Gets a mapping of commands to possible arguments for those commands.
+     * E.g. "go" -> ["up", "left", "down", "right"]
+     *      "examine" -> []
+     * @return a Map of commands to arguments
+     */
+    public Map<String, List<String>> getCommandOptions() {
+        Map<String, List<String>> commandMap = new HashMap<>();
+        // need a "placeholder" list so the buttons with no arguments will appear
+        List<String> placeholderList = new ArrayList<>(Collections.singletonList(""));
+        commandMap.put("go", Arrays.asList(directions));
+        commandMap.put("help", placeholderList);
+        commandMap.put("examine", placeholderList);
+        commandMap.put("inventory", placeholderList);
+        commandMap.put("history", placeholderList);
+        commandMap.put("take", blueprint.getRoom(currentRoom).getItems());
+        commandMap.put("drop", inventory);
+        return commandMap;
+    }
+
+    /**
+     * Execute a command for the API.
+     * @param status the current GameStatus
+     * @param cmd a String representing the server command.
+     * @return the updated GameStatus
+     */
+    public GameStatus executeCommand(GameStatus status, student.server.Command cmd) {
+        String message = processCommand(cmd.getCommandName(), cmd.getCommandValue());
+        adventureState.setCurrentRoom(currentRoom);
+        if (reachedEndRoom())
+            message += "\n" + doneMessage;
+        return new GameStatus(false, status.getId(), message, getImageURL(), getVideoURL(),
+                adventureState, getCommandOptions());
     }
 
     /**
@@ -220,7 +349,7 @@ public class SpaceshipGame {
 
         switch (action) {
             case HELP:
-                printHelp();
+                System.out.println(getHelpMessage());
                 break;
             case EXAMINE:
                 examine();

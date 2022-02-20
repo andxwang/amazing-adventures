@@ -9,6 +9,8 @@ public class Room {
 
     private String roomName;
     private String description;
+    private String imageURL;
+    private String videoURL;
     private ArrayList<String> items;
     private LeaveDirection[] leaveDirections;
 
@@ -20,12 +22,24 @@ public class Room {
         return description;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
     public void printDescription() {
         System.out.println(description);
     }
 
     public ArrayList<String> getItems() {
         return items;
+    }
+
+    public String getItemsAsString() {
+        return items.toString();
     }
 
     /**
@@ -50,6 +64,14 @@ public class Room {
         }
     }
 
+    public String getDirectionsToRooms() {
+        StringBuilder message = new StringBuilder("You can go: \n");
+        for (LeaveDirection dir : leaveDirections) {
+            message.append("  - ").append(dir.getDirectionName()).append(" to ").append(dir.getRoomName()).append("\n");
+        }
+        return message.toString();
+    }
+
     /**
      * Check if this room has a given item.
      * @param itemName a String representing the item
@@ -64,7 +86,7 @@ public class Room {
      * @param itemName a String representing the item
      */
     public void takeItem(String itemName) {
-        items.remove(itemName);
+        if (hasItem(itemName)) items.remove(itemName);
     }
 
     /**

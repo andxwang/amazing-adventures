@@ -5,6 +5,8 @@
     {
       "roomName": "FlightDeck",
       "description": "Flight Deck: I feel the need... the need for speed! Fly the ship. And try not to hit any asteroids.",
+      "imageURL": "https://images.squarespace-cdn.com/content/v1/5457c038e4b0c813a205dbe2/1495550975513-04KIC1VZW4ZEH0MQ3LM8/EX2_Roci-Ops7.jpg?format=1000w",
+      "videoURL": "https://youtu.be/YLMQnoO5Uik",
       "items": [
         "master key"
       ],
@@ -18,6 +20,8 @@
     {
       "roomName": "Operations",
       "description": "Operations: jammed weapons? Hull leak? Broken coffee machine? Oversee all the ship's functions and status here.",
+      "imageURL": "https://images.squarespace-cdn.com/content/v1/5457c038e4b0c813a205dbe2/1495493196497-RWHY7ZAACO4PYZ2PZWD6/EX2_Arbogast1.jpg?format=1000w",
+      "videoURL": "https://youtu.be/NuFj97KhHFE",
       "items": [
         "Martian pen",
         "holograph handheld"
@@ -44,6 +48,8 @@
     {
       "roomName": "Quarters",
       "description": "Quarters: relaxing area for crew members. Time to chill.",
+      "imageURL": "https://wallpaperaccess.com/full/3973916.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=210",
       "items": [
         "fluffy pillow"
       ],
@@ -61,6 +67,8 @@
     {
       "roomName": "Storage",
       "description": "Storage: extra space for miscellaneous items.",
+      "imageURL": "https://i.pinimg.com/originals/c9/5d/bc/c95dbc95b715f211751158d8378a7586.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=414",
       "items": [
       ],
       "leaveDirections": [
@@ -73,6 +81,8 @@
     {
       "roomName": "Barracks",
       "description": "Barracks: zzz... Sleeping space for crew members.",
+      "imageURL": "https://i.pinimg.com/originals/60/17/b0/6017b0e3399c3132aa256ce95d86ae48.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=602",
       "items": [
         "New Space Times magazine"
       ],
@@ -86,6 +96,8 @@
     {
       "roomName": "GunCommand",
       "description": "Gun control room: pew pew! Take control of ship's point defense cannons and railgun.",
+      "imageURL": "https://www.syfy.com/sites/syfy/files/styles/blog_post_featured_media_mobile/public/science_expanse_2_d?h=a92f03cd",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=768",
       "items": [
         "weapon control manual"
       ],
@@ -103,6 +115,8 @@
     {
       "roomName": "Dining",
       "description": "Dining: Chow down on delicious space food that is totally fresh.",
+      "imageURL": "https://i.pinimg.com/originals/ca/08/8d/ca088db65ca7d210f90521c4754ed81d.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=947",
       "items": [
         "silverware"
       ],
@@ -128,6 +142,8 @@
     {
       "roomName": "Galley",
       "description": "Galley: Where the good stuff is cooked up.",
+      "imageURL": "https://i.pinimg.com/originals/62/6d/b1/626db1823ae799d943947a9a80957582.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=1420",
       "items": [
         "granola bar"
       ],
@@ -141,6 +157,8 @@
     {
       "roomName": "MedBay",
       "description": "Medical bay: for when things get a lil rough out in space.",
+      "imageURL": "https://m.media-amazon.com/images/M/MV5BODBiNjk3NWUtZTM4OS00MGU5LTk4NDUtMzM0MTlhNjdkMDUwXkEyXkFqcGdeQXVyMzgwNDk3ODg@._V1_.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=1599",
       "items": [
         "first aid kit"
       ],
@@ -158,6 +176,8 @@
     {
       "roomName": "Hydroponics",
       "description": "Hydroponics: grow all the space plants you want here. Yum.",
+      "imageURL": "https://yumsome032017-vrynzbewd.netdna-ssl.com/wp-content/uploads/2019/12/air-scrubber-plants-2-1360x907.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=1797",
       "items": [
         "watering can"
       ],
@@ -175,6 +195,8 @@
     {
       "roomName": "CargoBay",
       "description": "Cargo storage: where all the loot is kept.",
+      "imageURL": "https://vignette.wikia.nocookie.net/masseffect/images/5/5b/KowloonCargoBay.jpg/revision/latest?cb=20091101162511",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=2020",
       "items": [
         "top-secret alien loot",
         "protomolecule sample"
@@ -193,6 +215,8 @@
     {
       "roomName": "Engineering",
       "description": "Engineering: for da nerds. Show em that CS degree wasn't for nothing.",
+      "imageURL": "https://i.pinimg.com/originals/de/21/f8/de21f8722d7cb0e989d62254bca05151.jpg",
+      "videoURL": "https://youtu.be/NuFj97KhHFE?t=2236",
       "items": [
       ],
       "leaveDirections": [
@@ -205,6 +229,8 @@
     {
       "roomName": "DockingRoom",
       "description": "Docking room: enter and exit the spacecraft via connecting bridge.",
+      "imageURL": "https://cdna.artstation.com/p/assets/images/images/003/723/576/large/phil-derbyshire-gss-corridor-01-hr.jpg?1476821757",
+      "videoURL": "https://youtu.be/dQw4w9WgXcQ",
       "items": [
       ],
       "leaveDirections": [

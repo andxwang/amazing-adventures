@@ -2,6 +2,8 @@ package student.server;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.ArrayList;
+
 /**
  * A class to represent values in a game state.
  *
@@ -16,8 +18,23 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @JsonSerialize
 public class AdventureState {
-    // TODO: Add any additional state your game needs to this object.
+
+    private String currentRoom;
+
+    // Add any additional state your game needs to this object.
     // E.g.: If your game needs to display a life total, you could add:
     // private int lifeTotal;
     // ...and whatever constructor/getters/setters you'd need
+
+    public AdventureState(String room) {
+        currentRoom = room;
+    }
+
+    public String getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(String room) {
+        this.currentRoom = room;
+    }
 }
