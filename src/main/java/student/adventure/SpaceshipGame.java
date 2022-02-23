@@ -24,14 +24,13 @@ public class SpaceshipGame {
                                         "You've finished your duties scouting the dark depths of our solar system for precious materials.\n" +
                                         "Now it is time for you to head back to Earth via transport pod.\n" +
                                         "You need to make your way to the Docking Room!\n";
-    private final String helpMessage = "To see where you currently are, type examine.\n" +
-                                        "To go to another room, type go [direction].\n" +
-                                        "To pick up an item, type take [item]. The room may not have an item.\n" +
-                                        "To drop an item, type drop [item].\n" +
-                                        "To see your inventory, type inventory.\n" +
-                                        "To see the history of rooms you've visited, type history.\n" +
-                                        "To exit the game, type quit.\n" +
-                                        "To see this message again, type help.";
+    private final String helpMessage = "To see where you currently are, examine.\n" +
+                                        "To go to another room, go [direction].\n" +
+                                        "To pick up an item, take [item]. The room may not have an item.\n" +
+                                        "To drop an item, drop [item].\n" +
+                                        "To see your inventory, select inventory.\n" +
+                                        "To see the history of rooms you've visited, select history.\n" +
+                                        "To see this message again, select help.";
     private final String doneMessage = "================================================================\n" +
                                         "You've reached the docking room! Have a safe trip back to Earth!\n" +
                                         "================================================================";
@@ -55,7 +54,7 @@ public class SpaceshipGame {
     }
 
     /**
-     * Main driver method for game.
+     * Main driver method for game when played via console.
      */
     public void play() {
         System.out.println(getIntroMessage());
@@ -83,11 +82,11 @@ public class SpaceshipGame {
                     break;
                 case TAKE:
                     String itemWanted = inText.substring(5).trim();
-                    System.out.println(take(itemWanted));
+                    System.out.println(take(itemWanted.trim()));
                     break;
                 case DROP:
                     String itemToDrop = inText.substring(5).trim();
-                    System.out.println(drop(itemToDrop));
+                    System.out.println(drop(itemToDrop.trim()));
                     break;
                 case INVENTORY:
                     System.out.println(getInventoryAsString());
@@ -109,10 +108,19 @@ public class SpaceshipGame {
 
             System.out.print("> ");
             inText = input.nextLine();
-            cmd.setCommand(inText);
+            cmd.setCommand(inText.trim());
             action = cmd.action();
         }
 
+    }
+
+    /**
+     * Get the current room.
+     * Should only be used for testing purposes.
+     * @return the current room's name
+     */
+    public String getCurrentRoom() {
+        return currentRoom;
     }
 
     /**
@@ -144,7 +152,7 @@ public class SpaceshipGame {
     public String go(String direction) {
         boolean isValidDirection = false;
         for (String dir : directions) {
-            if (dir.equalsIgnoreCase(direction)) {
+            if (dir.trim().equalsIgnoreCase(direction.trim())) {
                 isValidDirection = true;
                 break;
             }
@@ -155,7 +163,7 @@ public class SpaceshipGame {
 
         String message = "";
         for (LeaveDirection exitDir : blueprint.getRoom(currentRoom).getLeaveDirections()) {
-            if (exitDir.getDirectionName().equalsIgnoreCase(direction)) {
+            if (exitDir.getDirectionName().equalsIgnoreCase(direction.trim())) {
                 this.currentRoom = exitDir.getRoomName();
                 message += examine();
                 roomHistory.add(currentRoom);
@@ -225,13 +233,6 @@ public class SpaceshipGame {
      */
     public String getInventoryAsString() {
         return "Your inventory: " + inventory.toString();
-    }
-
-    /**
-     * Print history of rooms player has travelled to.
-     */
-    public void printHistory() {
-        System.out.println(roomHistory);
     }
 
     /**

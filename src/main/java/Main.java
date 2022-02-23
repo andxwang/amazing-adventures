@@ -3,14 +3,25 @@ import student.adventure.SpaceshipGame;
 import student.server.AdventureResource;
 import student.server.AdventureServer;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 public class Main {
-    public static void main(String[] args) throws IOException {
-//        SpaceshipGame game = new SpaceshipGame("src/main/resources/spaceship.json");
-//        game.play();
-        HttpServer server = AdventureServer.createServer(AdventureResource.class);
-        server.start();
+    public static void main(String[] args) throws Exception {
+        if (args.length == 1 && args[0].trim().equalsIgnoreCase("console")) {
+            try {
+                SpaceshipGame game = new SpaceshipGame("src/main/resources/spaceship.json");
+                game.play();
+            }
+            catch (Exception e) {
+                throw new Exception("Error in game via console.");
+            }
+        }
+        else {
+            try {
+                HttpServer server = AdventureServer.createServer(AdventureResource.class);
+                server.start();
+            }
+            catch (Exception e) {
+                throw new Exception("Error in game via server API.");
+            }
+        }
     }
 }

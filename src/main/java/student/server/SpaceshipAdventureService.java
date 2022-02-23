@@ -15,12 +15,6 @@ public class SpaceshipAdventureService implements AdventureService {
     private final String jsonFile = "src/main/resources/spaceship.json";
 
     public SpaceshipAdventureService() throws FileNotFoundException {
-        try {
-            SpaceshipGame gameEngine = new SpaceshipGame(jsonFile);
-        }
-        catch (FileNotFoundException e) {
-            throw new FileNotFoundException("Invalid JSON file path!");
-        }
         gameList = new HashMap<>();
         engineList = new HashMap<>();
     }
@@ -32,6 +26,7 @@ public class SpaceshipAdventureService implements AdventureService {
     public void reset() {
         numGames = 0;
         gameList.clear();
+        engineList.clear();
     }
 
     /**
@@ -43,8 +38,10 @@ public class SpaceshipAdventureService implements AdventureService {
     public int newGame() throws AdventureException {
         try {
             SpaceshipGame gameEngine = new SpaceshipGame(jsonFile);
-            GameStatus gameStatus = new GameStatus(false, numGames, gameEngine.getIntroMessage() + gameEngine.getHelpMessage(),
-                    gameEngine.getImageURL(), gameEngine.getVideoURL(), gameEngine.getAdventureState(), gameEngine.getCommandOptions());
+            GameStatus gameStatus = new GameStatus(false, numGames,
+                    gameEngine.getIntroMessage() + "\n" + gameEngine.getHelpMessage(),
+                    gameEngine.getImageURL(), gameEngine.getVideoURL(),
+                    gameEngine.getAdventureState(), gameEngine.getCommandOptions());
             gameList.put(numGames, gameStatus);
             engineList.put(numGames, gameEngine);
         }
@@ -103,5 +100,17 @@ public class SpaceshipAdventureService implements AdventureService {
     @Override
     public SortedMap<String, Integer> fetchLeaderboard() {
         return null;
+    }
+
+    public Map<Integer, GameStatus> getGameList() {
+        return gameList;
+    }
+
+    public Map<Integer, SpaceshipGame> getEngineList() {
+        return engineList;
+    }
+
+    public int getNumGames() {
+        return numGames;
     }
 }
